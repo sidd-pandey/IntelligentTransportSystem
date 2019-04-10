@@ -1,5 +1,6 @@
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.streaming.Trigger
 import org.apache.spark.sql.types.{DataTypes, StructType}
 
 object SpeedBandConsumer {
@@ -29,17 +30,28 @@ object SpeedBandConsumer {
       .add(name = "time", DataTypes.StringType)
 
     val jsonDf = inputDf.selectExpr("CAST(value AS STRING)")
-    val nested = jsonDf.select(from_json(col("value"), struct).as("sp"))
+    val finalDf = jsonDf.select(from_json(col("value"), struct).as("sp"))
         .selectExpr("sp.LinkID","sp.RoadName", "sp.RoadCategory",
           "cast(sp.SpeedBand as integer)", "cast(sp.MinimumSpeed as integer)",
           "cast(sp.MaximumSpeed as integer)", "sp.Location", "cast(sp.time as long)")
+
+    val csvSink = finalDf
         .writeStream
+        .format("csv")
         .outputMode("append")
-        .format("console")
+        .trigger(Trigger.ProcessingTime("60 seconds"))
+        .option("path", "C:/spark_trigger/data")
+        .option("checkpointLocation", "C:/spark_trigger/checkpoint")
         .start()
 
+    csvSink.awaitTermination()
 
-    nested.awaitTermination()
+//        .writeStream
+//        .outputMode("append")
+//        .format("console")
+//        .start()
+
+//    nested.awaitTermination()
 
   }
 }
