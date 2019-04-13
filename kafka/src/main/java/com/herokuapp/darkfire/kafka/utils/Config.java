@@ -1,4 +1,4 @@
-package com.herokuapp.darkfire.kafka;
+package com.herokuapp.darkfire.kafka.utils;
 
 import java.util.Properties;
 
@@ -7,7 +7,7 @@ public class Config {
 	public static Properties getDefaultProducer() {
 		
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "localhost:9092");
+		props.put("bootstrap.servers", "sandbox-hdp.hortonworks.com:6667");
 		props.put("acks", "all");
 		props.put("retries", 0);
 		props.put("batch.size", 16384);

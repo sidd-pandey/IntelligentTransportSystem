@@ -11,6 +11,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.herokuapp.darkfire.kafka.utils.Config;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -75,7 +77,7 @@ public class SpeedBandProducer
 
 			
 			try {
-				Thread.sleep(30 * 1000);
+				Thread.sleep(5 * 60 * 1000);
 			} catch (InterruptedException e) {
 				LOGGER.log(Level.SEVERE, "Thread interupted.", e);
 			}

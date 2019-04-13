@@ -17,7 +17,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<archive>
-						<!--<manifest> <mainClass>fully.qualified.MainClass</mainClass> </manifest> -->
+						<manifest> <mainClass>com.herokuapp.darkfire.kafka.BusArrivalProducer</mainClass> </manifest>
 					</archive>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
